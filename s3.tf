@@ -1,6 +1,3 @@
-variable "bucket_name" {}
-
-
 resource "aws_s3_bucket" "introduce_oh_website" {
   bucket = var.bucket_name
 

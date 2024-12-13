@@ -1,5 +1,3 @@
-variable "profile" {}
-
 terraform {
   required_providers {
     aws = {

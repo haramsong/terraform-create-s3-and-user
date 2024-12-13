@@ -1,5 +1,3 @@
-variable "bucket_name" {}
-
 resource "aws_iam_user" "hrsong" {
   name          = "hrsong"
   force_destroy = true
