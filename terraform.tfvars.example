@@ -1,0 +1,2 @@
+// terraform.tfvars 만들어서 해당 변수 넣어주세요.
+profile = "your-profile"
