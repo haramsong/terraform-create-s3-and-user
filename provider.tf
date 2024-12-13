@@ -1,17 +1,17 @@
 variable "profile" {}
 
- terraform { 
-  required_providers { 
-    aws = { 
-      source = "hashicorp/aws" 
-      version = "~> 4.16" 
-    } 
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.16"
+    }
   }
 
-  required_version = ">= 1.2.0" 
+  required_version = ">= 1.2.0"
 }
 
 provider "aws" {
-  region = "ap-northeast-2"
+  region  = "ap-northeast-2"
   profile = var.profile
 }
