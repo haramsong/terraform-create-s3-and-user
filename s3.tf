@@ -1,8 +1,11 @@
+variable "bucket_name" {}
+
+
 resource "aws_s3_bucket" "introduce_oh_website" {
-  bucket = "introduce-oh-website-bucket"
+  bucket = var.bucket_name
 
   tags = {
-    Name        = "introduce-oh-website-bucket"
+    Name        = var.bucket_name
     Environment = "Production"
   }
 }
@@ -50,7 +53,7 @@ resource "aws_s3_bucket_policy" "introduce_oh_website_policy" {
         Effect    = "Allow",
         Principal = "*",
         Action    = "s3:GetObject",
-        Resource  = "arn:aws:s3:::introduce-oh-website-bucket/*"
+        Resource  = "arn:aws:s3:::${var.bucket_name}/*"
       }
     ]
   })

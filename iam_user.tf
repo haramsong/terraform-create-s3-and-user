@@ -1,3 +1,5 @@
+variable "bucket_name" {}
+
 resource "aws_iam_user" "hrsong" {
   name = "hrsong"
   force_destroy = true
@@ -29,7 +31,7 @@ resource "aws_iam_policy" "s3_access_policy" {
             "s3:*BucketCORS",
             "s3:*BucketWebsite",
           ],
-        Resource = ["arn:aws:s3:::introduce-oh-website-bucket"]
+        Resource = ["arn:aws:s3:::${var.bucket_name}"]
       },
       {
         Effect   = "Allow",
@@ -38,7 +40,7 @@ resource "aws_iam_policy" "s3_access_policy" {
           "s3:PutObject",
           "s3:DeleteObject",
         ],
-        Resource = ["arn:aws:s3:::introduce-oh-website-bucket/*"]
+        Resource = ["arn:aws:s3:::${var.bucket_name}/*"]
       }
     ]
   })
