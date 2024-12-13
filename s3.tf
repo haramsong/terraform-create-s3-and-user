@@ -10,22 +10,10 @@ resource "aws_s3_bucket" "introduce_oh_website" {
 resource "aws_s3_bucket_public_access_block" "introduce_oh_bucket_acl" {
   bucket = aws_s3_bucket.introduce_oh_website.id
 
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
-}
-
-
-resource "aws_s3_bucket_website_configuration" "introduce_oh_website_config" {
-  bucket = aws_s3_bucket.introduce_oh_website.id
-
-  index_document {
-    suffix = "index.html"
-  }
-  error_document {
-    key = "error.html"
-  }
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 resource "aws_s3_bucket_cors_configuration" "introduce_oh_cors_rule" {
@@ -48,9 +36,16 @@ resource "aws_s3_bucket_policy" "introduce_oh_website_policy" {
     Statement = [
       {
         Effect    = "Allow",
-        Principal = "*",
+        Principal = {
+          Service = "cloudfront.amazonaws.com"
+        },
         Action    = "s3:GetObject",
-        Resource  = "arn:aws:s3:::${var.bucket_name}/*"
+        Resource  = "arn:aws:s3:::${var.bucket_name}/*",
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = "arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:distribution/${aws_cloudfront_distribution.cdn.id}"
+          }
+        }
       }
     ]
   })
