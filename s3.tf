@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "introduce_oh_website" {
+resource "aws_s3_bucket" "my_website" {
   bucket = var.bucket_name
 
   tags = {
@@ -7,8 +7,8 @@ resource "aws_s3_bucket" "introduce_oh_website" {
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "introduce_oh_bucket_acl" {
-  bucket = aws_s3_bucket.introduce_oh_website.id
+resource "aws_s3_bucket_public_access_block" "my_bucket_acl" {
+  bucket = aws_s3_bucket.my_website.id
 
   block_public_acls       = true
   block_public_policy     = true
@@ -16,8 +16,8 @@ resource "aws_s3_bucket_public_access_block" "introduce_oh_bucket_acl" {
   restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket_cors_configuration" "introduce_oh_cors_rule" {
-  bucket = aws_s3_bucket.introduce_oh_website.id
+resource "aws_s3_bucket_cors_configuration" "my_cors_rule" {
+  bucket = aws_s3_bucket.my_website.id
 
   cors_rule {
     allowed_headers = ["*"]
@@ -28,19 +28,19 @@ resource "aws_s3_bucket_cors_configuration" "introduce_oh_cors_rule" {
   }
 }
 
-resource "aws_s3_bucket_policy" "introduce_oh_website_policy" {
-  bucket = aws_s3_bucket.introduce_oh_website.id
+resource "aws_s3_bucket_policy" "my_website_policy" {
+  bucket = aws_s3_bucket.my_website.id
 
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
-        Effect    = "Allow",
+        Effect = "Allow",
         Principal = {
           Service = "cloudfront.amazonaws.com"
         },
-        Action    = "s3:GetObject",
-        Resource  = "arn:aws:s3:::${var.bucket_name}/*",
+        Action   = "s3:GetObject",
+        Resource = "arn:aws:s3:::${var.bucket_name}/*",
         Condition = {
           StringEquals = {
             "AWS:SourceArn" = "arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:distribution/${aws_cloudfront_distribution.cdn.id}"
@@ -50,5 +50,5 @@ resource "aws_s3_bucket_policy" "introduce_oh_website_policy" {
     ]
   })
 
-  depends_on = [aws_s3_bucket_public_access_block.introduce_oh_bucket_acl]
+  depends_on = [aws_s3_bucket_public_access_block.my_bucket_acl]
 }

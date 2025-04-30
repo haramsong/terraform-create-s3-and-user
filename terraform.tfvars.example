@@ -1,3 +1,6 @@
 // terraform.tfvars 만들어서 해당 변수 넣어주세요.
 profile = "your-profile"
 bucket_name = "my-bucket"
+acm_id = "my-acm-id"
+region = "my-region"
+domain_name = "my-domain"
