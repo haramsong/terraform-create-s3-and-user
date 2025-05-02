@@ -28,9 +28,9 @@ resource "aws_cloudfront_cache_policy" "my_custom_cache_policy" {
 }
 
 resource "aws_cloudfront_function" "my_cloudfront_function" {
-  name    = "spa-routing-function"
+  name    = "my-website-routing-function"
   runtime = "cloudfront-js-1.0"
-  comment = "Function to handle SPA routing"
+  comment = "Function to handle my website routing"
   publish = true
   code    = file("${path.module}/function.js")
 }
@@ -79,7 +79,7 @@ resource "aws_cloudfront_distribution" "cdn" {
   }
 
   custom_error_response {
-    error_code            = 404
+    error_code            = 403
     response_page_path    = "/404.html"
     response_code         = 200
     error_caching_min_ttl = 2

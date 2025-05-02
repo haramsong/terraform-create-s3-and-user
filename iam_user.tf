@@ -9,7 +9,7 @@ resource "aws_iam_user" "my" {
 
 resource "aws_iam_policy" "s3_access_policy" {
   name        = "hrsong-s3-access-policy"
-  description = "Policy to allow access to introduce-oh-website-bucket"
+  description = "Policy to allow access to S3 and CloudFront resources"
 
   policy = jsonencode({
     Version = "2012-10-17",
